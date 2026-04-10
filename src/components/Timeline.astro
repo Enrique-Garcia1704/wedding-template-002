@@ -1,0 +1,136 @@
+---
+const events = [
+  {
+    date: "Marzo 2018",
+    title: "Nuestro primer encuentro",
+    description: "Una mirada casual se convirtió en una conversación que nunca queríamos terminar. Desde ese día, supimos que algo especial había comenzado.",
+    icon: "☕",
+  },
+  {
+    date: "Julio 2019",
+    title: "Primera cita oficial",
+    description: "Cenamos bajo las estrellas en un pequeño restaurante junto al mar. Esa noche confirmamos lo que ya sentíamos en el corazón.",
+    icon: "🌙",
+  },
+  {
+    date: "Diciembre 2020",
+    title: "Nuestro primer hogar juntos",
+    description: "Decidimos dar el gran paso y construir un hogar lleno de risas, sueños compartidos y amor incondicional.",
+    icon: "🏡",
+  },
+  {
+    date: "Febrero 2024",
+    title: "La propuesta",
+    description: "En un atardecer dorado, con el corazón lleno de certeza, nos prometimos amor para toda la vida. Dijimos sí, sin dudarlo.",
+    icon: "💍",
+  },
+  {
+    date: "15 Nov 2027",
+    title: "Nuestra boda",
+    description: "El día en que celebramos nuestro amor rodeados de las personas más importantes. El comienzo de un nuevo capítulo juntos.",
+    icon: "✨",
+  },
+];
+---
+
+<section id="nuestra-historia" class="py-24 bg-background">
+  <div class="max-w-4xl mx-auto px-6">
+
+    <div class="text-center mb-20 reveal">
+      <p class="font-sans text-xs tracking-[0.35em] uppercase text-sage mb-4">
+        Cómo llegamos aquí
+      </p>
+      <h2 class="font-serif text-4xl md:text-5xl font-light text-foreground">
+        Nuestra Historia de Amor
+      </h2>
+      <div class="ornament-divider text-gold text-sm mt-6 max-w-xs mx-auto">❖</div>
+    </div>
+
+    <div class="relative">
+      <!-- Vertical line -->
+      <div class="absolute left-6 md:left-1/2 top-0 bottom-0 w-px bg-linear-to-b from-transparent via-gold-light to-transparent" />
+
+      {events.map((event, idx) => (
+        <div
+          class={`reveal relative flex items-start gap-8 mb-16 last:mb-0 ${
+            idx % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+          }`}
+          style={`transition-delay: ${idx * 0.15}s`}
+        >
+          <!-- Timeline dot -->
+          <div class="absolute left-6 md:left-1/2 -translate-x-1/2 z-10">
+            <div class="dot-pop w-12 h-12 rounded-full bg-background border-2 border-gold flex items-center justify-center text-lg"
+              style={`animation-delay: ${idx * 0.15 + 0.3}s`}>
+              {event.icon}
+            </div>
+          </div>
+
+          <!-- Content -->
+          <div class={`ml-20 md:ml-0 md:w-[calc(50%-3rem)] ${
+            idx % 2 === 0 ? "md:text-right md:pr-8" : "md:text-left md:pl-8"
+          }`}>
+            <p class="font-sans text-xs tracking-[0.25em] uppercase text-accent mb-2">
+              {event.date}
+            </p>
+            <h3 class="font-serif text-2xl md:text-3xl font-light text-foreground mb-3">
+              {event.title}
+            </h3>
+            <p class="font-sans text-sm leading-relaxed text-muted-foreground">
+              {event.description}
+            </p>
+          </div>
+
+          <!-- Spacer -->
+          <div class="hidden md:block md:w-[calc(50%-3rem)]" />
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<script>
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          (entry.target as HTMLElement).classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { rootMargin: "-50px" }
+  );
+
+  document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+</script>
+
+<style>
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .dot-pop {
+    opacity: 0;
+    transform: scale(0);
+    animation: dotPop 0.5s ease forwards;
+    animation-play-state: paused;
+  }
+
+  .reveal.visible .dot-pop {
+    animation-play-state: running;
+  }
+
+  @keyframes dotPop {
+    0%   { opacity: 0; transform: scale(0); }
+    60%  { transform: scale(1.2); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+</style>

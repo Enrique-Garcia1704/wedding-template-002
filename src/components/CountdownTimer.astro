@@ -1,0 +1,63 @@
+---
+const WEDDING_DATE = "2027-11-15T17:00:00";
+---
+
+<section class="py-20 bg-cream-dark">
+  <div class="max-w-3xl mx-auto px-6">
+    <div class="text-center fade-up">
+      <p class="font-sans text-xs tracking-[0.35em] uppercase text-sage mb-8">
+        La cuenta regresiva ha comenzado
+      </p>
+
+      <div class="flex justify-center gap-6 md:gap-12">
+        {["Días", "Horas", "Minutos", "Segundos"].map((label, idx) => (
+          <div class="text-center fade-up" style={`animation-delay: ${idx * 0.1}s`}>
+            <div
+              id={`unit-${label.toLowerCase()}`}
+              class="font-serif text-4xl md:text-6xl font-light text-foreground tabular-nums"
+            >
+              00
+            </div>
+            <div class="font-sans text-[10px] tracking-[0.3em] uppercase text-sage mt-2">
+              {label}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script define:vars={{ WEDDING_DATE }}>
+  const target = new Date(WEDDING_DATE).getTime();
+
+  function update() {
+    const diff = target - Date.now();
+    const safe = Math.max(0, diff);
+
+    const days    = Math.floor(safe / (1000 * 60 * 60 * 24));
+    const hours   = Math.floor((safe / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((safe / (1000 * 60)) % 60);
+    const seconds = Math.floor((safe / 1000) % 60);
+
+    document.getElementById("unit-días").textContent    = String(days).padStart(2, "0");
+    document.getElementById("unit-horas").textContent   = String(hours).padStart(2, "0");
+    document.getElementById("unit-minutos").textContent = String(minutes).padStart(2, "0");
+    document.getElementById("unit-segundos").textContent = String(seconds).padStart(2, "0");
+  }
+
+  update();
+  setInterval(update, 1000);
+</script>
+
+<style>
+  .fade-up {
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>

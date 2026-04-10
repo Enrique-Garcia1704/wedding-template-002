@@ -1,0 +1,122 @@
+---
+
+---
+
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
+  <!-- Background botanical image -->
+  <div class="absolute inset-0 opacity-15">
+    <img
+      src=""
+      alt=""
+      class="w-full h-full object-cover"
+      aria-hidden="true"
+    />
+  </div>
+
+  <!-- Floating botanical frame -->
+  <div class="absolute inset-0 flex items-center justify-center pointer-events-none frame-float">
+    <img
+      src=""
+      alt=""
+      class="w-[500px] md:w-[650px] opacity-30"
+      aria-hidden="true"
+    />
+  </div>
+
+  <div class="relative z-10 text-center px-6 max-w-3xl mx-auto">
+    <p class="font-sans text-sm tracking-[0.35em] uppercase text-sage mb-8 fade-up" style="animation-delay: 0.2s">
+      Juntos en el amor · Juntos en la vida
+    </p>
+
+    <div class="fade-scale" style="animation-delay: 0.5s">
+      <h1 class="font-serif text-6xl md:text-8xl lg:text-9xl font-light text-foreground leading-none mb-2">
+        Andrés
+      </h1>
+      <p class="gold-shimmer font-serif text-3xl md:text-4xl italic my-4">&amp;</p>
+      <h1 class="font-serif text-6xl md:text-8xl lg:text-9xl font-light text-foreground leading-none">
+        Miguel
+      </h1>
+    </div>
+
+    <div class="mt-12 fade-in" style="animation-delay: 1s">
+      <div class="ornament-divider text-gold text-lg mb-6">✦</div>
+      <p class="font-serif text-xl md:text-2xl text-muted-foreground italic">
+        Tenemos el honor de invitarte a celebrar nuestra boda
+      </p>
+    </div>
+
+    <div class="mt-12 space-y-2 fade-up" style="animation-delay: 1.4s">
+      <p class="font-sans text-sm tracking-[0.25em] uppercase text-sage">
+        Sábado, 15 de noviembre de 2025
+      </p>
+      <p class="font-serif text-lg text-muted-foreground">
+        Hacienda Los Olivos · Guadalajara, Jalisco
+      </p>
+    </div>
+
+    <div class="mt-16 fade-in" style="animation-delay: 1.8s">
+      <a
+        href="#nuestra-historia"
+        class="inline-block border border-gold px-8 py-3 font-sans text-xs tracking-[0.3em] uppercase text-gold hover:bg-accent hover:text-accent-foreground transition-all duration-500 hover:scale-105 active:scale-95"
+      >
+        Descubre nuestra historia
+      </a>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 scroll-bounce">
+      <div class="w-px h-12 bg-gradient-to-b from-transparent via-gold to-transparent"></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .fade-up {
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards;
+  }
+
+  .fade-in {
+    opacity: 0;
+    animation: fadeIn 1s ease forwards;
+  }
+
+  .fade-scale {
+    opacity: 0;
+    animation: fadeScale 1s ease forwards;
+  }
+
+  .frame-float {
+    animation: frameFloat 8s ease-in-out infinite;
+  }
+
+  .scroll-bounce {
+    animation: scrollBounce 2s ease-in-out infinite;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes fadeScale {
+    from { opacity: 0; transform: scale(0.9); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes frameFloat {
+    0%, 100% { transform: rotate(0deg); }
+    25%       { transform: rotate(1deg); }
+    75%       { transform: rotate(-1deg); }
+  }
+
+  @keyframes scrollBounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50%       { transform: translateX(-50%) translateY(8px); }
+  }
+</style>

@@ -1,0 +1,121 @@
+---
+
+const photos = [
+  { src: "", alt: "Andrés y Miguel al atardecer", caption: "Donde todo comenzó" },
+  { src: "", alt: "Nuestros anillos", caption: "La promesa de siempre" },
+  { src: "", alt: "El lugar de la celebración", caption: "Donde diremos sí, acepto" },
+  { src: "", alt: "Arreglos florales", caption: "Cada detalle con amor" },
+];
+---
+
+<section class="py-24 bg-cream-dark overflow-hidden">
+  <div class="max-w-5xl mx-auto px-6">
+
+    <div class="text-center mb-16 reveal">
+      <p class="font-sans text-xs tracking-[0.35em] uppercase text-sage mb-4">
+        Momentos que atesoramos
+      </p>
+      <h2 class="font-serif text-4xl md:text-5xl font-light text-foreground">
+        Nuestros Recuerdos
+      </h2>
+      <div class="ornament-divider text-gold text-sm mt-6 max-w-xs mx-auto">❖</div>
+    </div>
+
+    <div class="relative">
+      <!-- Slides -->
+      <div class="relative aspect-[4/3] md:aspect-[16/10] overflow-hidden rounded-sm">
+        {photos.map((photo, idx) => (
+          <div
+            class="carousel-slide absolute inset-0 transition-all duration-600 ease-[cubic-bezier(0.4,0,0.2,1)]"
+            data-index={idx}
+          >
+            <img src={photo.src} alt={photo.alt} class="w-full h-full object-cover" />
+            <div class="absolute inset-0 bg-linear-to-t from-foreground/50 via-transparent to-transparent" />
+            <div class="absolute bottom-0 left-0 right-0 p-8 md:p-12">
+              <p class="font-serif text-2xl md:text-3xl italic text-primary-foreground">
+                {photo.caption}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Arrows -->
+      <button
+        id="prev-btn"
+        class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center border border-primary-foreground/30 text-primary-foreground/80 hover:bg-primary-foreground/10 transition-colors backdrop-blur-sm rounded-full text-2xl"
+        aria-label="Foto anterior"
+      >‹</button>
+      <button
+        id="next-btn"
+        class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center border border-primary-foreground/30 text-primary-foreground/80 hover:bg-primary-foreground/10 transition-colors backdrop-blur-sm rounded-full text-2xl"
+        aria-label="Siguiente foto"
+      >›</button>
+
+      <!-- Dots -->
+      <div id="dots" class="flex justify-center gap-3 mt-8">
+        {photos.map((_, idx) => (
+          <button
+            class="carousel-dot transition-all duration-500 rounded-full h-2 bg-sage/40 hover:bg-sage"
+            data-index={idx}
+            aria-label={`Ver foto ${idx + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  const slides = document.querySelectorAll<HTMLElement>(".carousel-slide");
+  const dots   = document.querySelectorAll<HTMLElement>(".carousel-dot");
+  let current  = 0;
+  let timer: ReturnType<typeof setInterval>;
+
+  function show(idx: number) {
+    slides[current].classList.remove("active");
+    dots[current].classList.remove("active-dot");
+    current = (idx + slides.length) % slides.length;
+    slides[current].classList.add("active");
+    dots[current].classList.add("active-dot");
+  }
+
+  function startTimer() {
+    clearInterval(timer);
+    timer = setInterval(() => show(current + 1), 5000);
+  }
+
+  show(0);
+  startTimer();
+
+  document.getElementById("prev-btn")!.addEventListener("click", () => { show(current - 1); startTimer(); });
+  document.getElementById("next-btn")!.addEventListener("click", () => { show(current + 1); startTimer(); });
+  dots.forEach((dot) => {
+    dot.addEventListener("click", () => { show(Number(dot.dataset.index)); startTimer(); });
+  });
+
+  // reveal on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e) => { if (e.isIntersecting) { (e.target as HTMLElement).classList.add("visible"); observer.unobserve(e.target); } });
+  }, { rootMargin: "-50px" });
+  document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+</script>
+
+<style>
+  .carousel-slide {
+    opacity: 0;
+    transform: translateX(100%);
+    pointer-events: none;
+  }
+  .carousel-slide.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+  .carousel-dot { width: 0.5rem; }
+  .carousel-dot.active-dot { width: 2rem; background-color: hsl(var(--accent)); }
+
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
