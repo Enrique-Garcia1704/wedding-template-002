@@ -14,8 +14,8 @@ import { fetchIndexData } from '../lib/services/index.ts';
 
 export const prerender = false;
 
-const id = Astro.url.searchParams.get("q");
-const indexData = await fetchIndexData(id|| "wgalpdijvb01ftpngw8ig7ax");
+const id = Astro.url.searchParams.get("id");
+const indexData = id ? await fetchIndexData(id) : null;
 
 
 indexData?.detalle_evento?.[0]?.nombre_pareja1
