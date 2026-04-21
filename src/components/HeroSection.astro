@@ -1,5 +1,27 @@
 ---
 
+interface HeroData {
+  nombreNovia: string;
+  nombreNovio: string;
+  fecha: string;
+  lugar: string;
+  frase_principal: string;
+  frase_secundaria: string;
+  imagen_fondo: {url: string} | null;
+
+}
+
+const { nombreNovia, nombreNovio, fecha, lugar, frase_principal, frase_secundaria , imagen_fondo } = Astro.props as HeroData;
+
+// Convertir fecha UTC a hora de México
+const fechaMX = new Date(fecha).toLocaleString("es-MX", {
+  timeZone: "America/Mexico_City",
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+  hour: "2-digit",
+  minute: "2-digit"
+});
 ---
 
 <section class="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
@@ -25,32 +47,32 @@
 
   <div class="relative z-10 text-center px-6 max-w-3xl mx-auto">
     <p class="font-sans text-sm tracking-[0.35em] uppercase text-sage mb-8 fade-up" style="animation-delay: 0.2s">
-      Juntos en el amor · Juntos en la vida
+      {frase_principal}
     </p>
 
     <div class="fade-scale" style="animation-delay: 0.5s">
       <h1 class="font-serif text-6xl md:text-8xl lg:text-9xl font-light text-foreground leading-none mb-2">
-        Andrés
+        {nombreNovia}
       </h1>
       <p class="gold-shimmer font-serif text-3xl md:text-4xl italic my-4">&amp;</p>
       <h1 class="font-serif text-6xl md:text-8xl lg:text-9xl font-light text-foreground leading-none">
-        Miguel
+        {nombreNovio}
       </h1>
     </div>
 
     <div class="mt-12 fade-in" style="animation-delay: 1s">
       <div class="ornament-divider text-gold text-lg mb-6">✦</div>
       <p class="font-serif text-xl md:text-2xl text-muted-foreground italic">
-        Tenemos el honor de invitarte a celebrar nuestra boda
+        {frase_secundaria}
       </p>
     </div>
 
     <div class="mt-12 space-y-2 fade-up" style="animation-delay: 1.4s">
       <p class="font-sans text-sm tracking-[0.25em] uppercase text-sage">
-        Sábado, 15 de noviembre de 2025
+        { fechaMX}
       </p>
       <p class="font-serif text-lg text-muted-foreground">
-        Hacienda Los Olivos · Guadalajara, Jalisco
+        {lugar}
       </p>
     </div>
 

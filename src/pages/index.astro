@@ -9,13 +9,25 @@ import RSVPSection from '../components/RSVPSection.astro';
 import Footer from '../components/Footer.astro';
 
 
+
+import { fetchIndexData } from '../lib/services/index.ts';
+
+export const prerender = false;
+
+const id = Astro.url.searchParams.get("q");
+const indexData = await fetchIndexData(id|| "wgalpdijvb01ftpngw8ig7ax");
+
+
+indexData?.detalle_evento?.[0]?.nombre_pareja1
+indexData?.fecha_evento
+
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <Layout>
-	<HeroSection />
-	<CountdownTimer />
+	<HeroSection nombreNovia={indexData?.detalle_evento?.[0]?.nombre_pareja1} nombreNovio={indexData?.detalle_evento?.[0]?.nombre_pareja2} frase_principal={indexData?.detalle_evento?.[0]?.frase_principal} frase_secundaria={indexData?.detalle_evento?.[0]?.frase_secundaria} lugar={indexData?.detalle_evento?.[0]?.lugar} fecha={indexData?.fecha_evento} />
+	<CountdownTimer fecha={indexData?.fecha_evento} />
 	<WeddingDetails />
 	<Timeline />
 	<PhotoCarousel />
